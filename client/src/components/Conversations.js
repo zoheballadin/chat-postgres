@@ -1,10 +1,13 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { GlobalContext } from './context/GlobalState';
+import { ConversationListItem } from './ConversationListItem';
 
 export const Conversations = () => {
     const [conversations, setConversations] = useState([]);
     let navigate = useNavigate()
+    const {user} = useContext(GlobalContext)
     
     const getConvos = async() =>{
         try {
@@ -29,7 +32,7 @@ export const Conversations = () => {
     <div>
         <ul>
             {conversations.map(item => (
-                <li onClick={()=> navigate(`/conversation/${item.id}`)}>{item.members.join(" ")}</li>
+                <ConversationListItem conversation={item} currentUser={user}/>
             ))}
         </ul>
     </div>

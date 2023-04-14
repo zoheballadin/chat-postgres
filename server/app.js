@@ -14,19 +14,7 @@ const app = express();
 const port = 5002;
 
 app.use(express.json());
-// app.use(session({    
-//     secret: "postgreschat",
-//     credentials: true,
-//     name: "sid",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         secure: "auto",
-//         httpOnly: true,
-//         sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
-//         expires: 1000*60*60 * 24 * 7
-//     }
-// }))
+
 app.use("/api/auth", authRoutes)
 app.use("/api/conversation", conversationRoutes)
 app.use("/api/message", messageRoutes)

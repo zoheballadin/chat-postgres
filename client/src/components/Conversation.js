@@ -11,6 +11,7 @@ export const Conversation = () => {
   const [userId, setId] = useState("")
   const [members, setMembers] = useState([])
   const [newMessage, setNewMessage] = useState(null)
+  const [conversation, setConversation] = useState({})
 
   useEffect(()=>{
     socket.current = io("ws://localhost:5002")
@@ -50,11 +51,15 @@ export const Conversation = () => {
           "auth-token": token.token
         }
       })
+      console.log(data)
+      setConversation(data)
       setMembers(data.members)
     } catch (error) {
       console.log(error)
     }
   }
+
+  
   const getUser = async() =>{
     try {
       let token = JSON.parse(localStorage.getItem("token"))

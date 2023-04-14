@@ -2,24 +2,25 @@ import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { AccountContext } from './AccountContext'
 import { useNavigate } from 'react-router-dom'
+import { GlobalContext } from './context/GlobalState'
 
 export const Login = () => {
   const navigate = useNavigate()
-    let [user, setUser] = useState({})
-    const {setCurrentUser} = useContext(AccountContext)
-    const onChange = e => setUser({...user, [e.target.name]: e.target.value})
+    let [user, setLoginUser] = useState({})
+    const {setUser} = useContext(GlobalContext)
+    const onChange = e => setLoginUser({...user, [e.target.name]: e.target.value})
 
     const onSubmit = async() =>{
         // return console.log(user)
         try {
             let {data} = await axios.post("/api/auth/login", user, {withCredentials: true})
-            setCurrentUser({...data})
+            setUser()
             alert(data.message)
             localStorage.setItem("token", JSON.stringify({
                 token: data.token,
                 role: data.role
             }))
-            navigate("/home")
+            navigate("/convos")
 
         } catch (error) {
             console.log(error)
