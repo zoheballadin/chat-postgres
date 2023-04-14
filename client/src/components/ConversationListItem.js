@@ -18,7 +18,7 @@ export const ConversationListItem = ({conversation, currentUser}) => {
 
     useEffect(()=>{
         getUser(friendId)
-    },[])
+    },[currentUser, conversation])
 
     console.log(friendId)
   return (
