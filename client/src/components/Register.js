@@ -1,5 +1,7 @@
 import axios from 'axios'
+import "flowbite"
 import React, { useState } from 'react'
+import { Navbar } from './Navbar'
 
 export const Register = () => {
     let [user, setUser] = useState({})
@@ -17,6 +19,7 @@ export const Register = () => {
     }
   return (
 <body class = " bg-purple-800 dark:bg-[#0F172A] ">
+    <Navbar/>
     <div class = "bg-black before:animate-pulse before:bg-gradient-to-b before:from-gray-900 overflow-hidden before:via-[#00FF00] before:to-gray-900 before:absolute ">
         <div id="myDIV " className='bg-purple-800' >
             <div class = "w-[100vw] h-[100vh] px-3 sm:px-5 flex items-center justify-center absolute">
@@ -34,7 +37,7 @@ export const Register = () => {
                     </div>
                     <div class="mb-6">
                         <label for="password" class="block mb-2 text-xs font-medium text-white">Your Name</label>
-                        <input type="text" placeholder='Your name' name='fullname' id="password" onChange={onChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 md:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
+                        <input type="text" placeholder='Your name' name='fullname' id="fullname" onChange={onChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 md:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                     </div>
                     <div class = "flex flex-row justify-between">
                         {/* <div class = "text-white text-sm md:text-md ">Forgot Password</div> */}

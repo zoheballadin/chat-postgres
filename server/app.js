@@ -36,7 +36,7 @@ const addUser = (uid, sid) => {
 };
 
 const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
+  return users.find((user) => user.userId == userId);
 };
 
 const removeUser = (sid) => {
@@ -49,14 +49,17 @@ io.on("connection", (socket) => {
   //after every connection, take user id and socket id and store in users array
 
   socket.on("addUser", (userId) => {
+    console.log(userId)
     addUser(userId, socket.id);
     io.emit("getUsers", users);
   });
 
   //send and get message
   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+      console.log(receiverId)
     const user = getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", {
+    console.log(user)
+   user && io.to(user.socketId).emit("getMessage", {
       senderId,
       text,
     });

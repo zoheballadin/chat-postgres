@@ -13,14 +13,30 @@ export const Conversation = () => {
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [userId, setUserId] = useState(user.id)
 
   const [members, setMembers] = useState([]);
   const [newMessage, setNewMessage] = useState(null);
   const [conversation, setConversation] = useState({});
 
+  const getUser = async() =>{
+    try {
+      let {data} = await axios.get("/api/auth", {
+        headers: {
+          "auth-token": JSON.parse(localStorage.getItem("token")).token
+        }
+      })
+      setUserId(data.id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
+    getUser()
     socket.current = io("ws://localhost:5002");
     socket.current.on("getMessage", (data) => {
+      console.log(data.senderId)
       setNewMessage({
         conversation: id,
         text: data.text,
@@ -37,11 +53,12 @@ export const Conversation = () => {
   }, [newMessage]);
 
   useEffect(() => {
-    socket.current.emit("addUser", user.id);
+    // console.log("this is the new id ", user.id)
+    socket.current.emit("addUser", userId);
     socket.current.on("getUsers", (users) => {
       console.log(users);
     });
-  }, [user.id]); 
+  }, [userId, user]); 
 
   useEffect(()=>{
     scrollRef.current?.scrollIntoView({behavior: "smooth"})
@@ -85,10 +102,11 @@ export const Conversation = () => {
   const send = async () => {
     const receiverId = conversation.members.find((item) => item !== user.id);
     socket.current.emit("sendMessage", {
-      senderId: user.id,
+      senderId: userId,
       receiverId,
       text: message,
     });
+    console.log(receiverId)
     try {
       let token = JSON.parse(localStorage.getItem("token"));
       let { data } = await axios.post(
@@ -121,7 +139,7 @@ export const Conversation = () => {
       <div className="flex flex-col">
         {messages.map((item) => (
           <div ref={scrollRef}>  
-            <Message message={item} own={item.senderDetails.id == user.id} />
+            <Message message={item} sender={item.senderDetails.id} own={item.senderDetails.id == user?.id} />
           </div>
         ))}
       </div>
