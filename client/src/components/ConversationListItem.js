@@ -22,6 +22,6 @@ export const ConversationListItem = ({conversation, currentUser}) => {
 
     console.log(friendId)
   return (
-    <li onClick={()=> navigate(`/conversation/${conversation.id}`)}>{user.fullname}</li>
+    <li className='bg-[#3B3486] rounded-lg px-64 my-5 py-10 text-white text-2xl cursor-pointer' onClick={()=> navigate(`/conversation/${conversation.id}`)}>{user.fullname}</li>
   )
 }

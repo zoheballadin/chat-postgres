@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { Navbar } from './Navbar';
 
 export const Friends = () => {
     const [friends, setFriends] = useState([])
@@ -28,13 +29,14 @@ export const Friends = () => {
         getFriends()
     },[])
   return (
-    <div>
-        <h1 className='text-4xl text-center'>Click to start a Conversation</h1>
-        <ul >
+    <div className='bg-[#FFE9B1] min-h-screen h-full text-center'>
+        <Navbar/>
+        <h1 className='text-center font-semibold text-5xl my-8 text-slate-800'>Click to start a Conversation</h1>
+        <ul className='inline-block text-left'>
 
             {
                 friends.map(item => (
-                    <li className='ml-64 text-3xl '  onClick={()=>createConvo(item.id)}>
+                    <li className='bg-[#3B3486] rounded-lg px-64 my-5 py-10 text-white text-2xl cursor-pointer'  onClick={()=>createConvo(item.id)}>
                 {item.fullname}
             </li>
                 ))

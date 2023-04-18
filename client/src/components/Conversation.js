@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { GlobalContext } from "./context/GlobalState";
 import { Message } from "./Message";
+import { Navbar } from "./Navbar";
 
 export const Conversation = () => {
   const socket = useRef();
@@ -14,10 +15,13 @@ export const Conversation = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [userId, setUserId] = useState(user.id)
+  const [receiver, setReceiver] = useState({})
 
   const [members, setMembers] = useState([]);
   const [newMessage, setNewMessage] = useState(null);
   const [conversation, setConversation] = useState({});
+
+  
 
   const getUser = async() =>{
     try {
@@ -73,6 +77,9 @@ export const Conversation = () => {
         },
       });
       console.log(data);
+      const recId = data.members.find((item) => item !== userId);
+      let userData = await axios.get("/api/user/"+recId)
+      setReceiver(userData.data)
       setConversation(data);
       setMembers(data.members);
     } catch (error) {
@@ -82,7 +89,7 @@ export const Conversation = () => {
 
   useEffect(() => {
     getMembers();
-  }, []);
+  }, [userId]);
 
   const getMessages = async () => {
     try {
@@ -134,8 +141,9 @@ export const Conversation = () => {
   }, []);
 
   return (
-    <div className="w-full ">
-      <h1 className="mb-48">Conversation between a and b</h1>
+    <div className="w-full h-full min-h-screen bg-[#FFE9B1]">
+      <Navbar/>
+      <h1 className="mb-28 text-3xl text-center mt-10">Conversation with {receiver.fullname}</h1>
       <div className="flex flex-col">
         {messages.map((item) => (
           <div ref={scrollRef}>  
@@ -143,9 +151,9 @@ export const Conversation = () => {
           </div>
         ))}
       </div>
-      <div className="mx-auto ">
+      <div className=" w-full pb-4">
         <input
-          className="bg-slate-100 w-3/5 peer py-1  border-slate-400 rounded-lg focus:border-sky-400 focus:outline-none  border-2 "
+          className="bg-slate-100 ml-2 w-11/12 px-1  peer py-5  border-slate-400 rounded-lg focus:border-sky-400 focus:outline-none  border-2 "
           value={message}
           placeholder="enter a text "
           type="text"
@@ -153,7 +161,7 @@ export const Conversation = () => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <button
-          className="bg-slate-300 border-blue-500 border-2 p-2"
+          className="  bg-[#3B3486]  hover:bg-[#7743DB] text-white ml-4 px-8 border-blue-500 border-2 py-4 rounded-md"
           onClick={send}
         >
           Send

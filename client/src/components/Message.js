@@ -17,7 +17,7 @@ export const Message = ({message, own, sender}) => {
     getSender()
   },[])
   return (
-    <div className={`my-10 mx-16  ${own && "self-end"}`}>
+    <div style={{alignSelf: own && "flex-end"}} className={`my-10   mx-16  ${own && "self-end"} ${!own && ("relative right-0 bg-[#7743DB]")} bg-[#3B3486]  w-fit text-white p-6 rounded-[20px]`}>
       <h5 className="font-semibold">
         {senderDetails.fullname
           ? senderDetails.fullname
