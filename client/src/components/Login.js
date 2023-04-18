@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AccountContext } from './AccountContext'
 import { useNavigate } from 'react-router-dom'
 import { GlobalContext } from './context/GlobalState'
@@ -27,10 +27,24 @@ export const Login = () => {
             console.log(error)
         }
     }
+
+    useEffect(()=>{
+        let token = localStorage.getItem("token");
+        if(token){
+            token = JSON.parse(token)
+            if(token.role == "user"){
+                return navigate("/convos")
+            }
+            else {
+                localStorage.removeItem("token");
+                return navigate("/login")
+            }
+        }
+    },[])
   return (
-    // <div className='bg-green-600 h-screen flex flex-col'>
-<body class = " bg-purple-800 dark:bg-[#0F172A] ">
+    <div className='bg-[#789ddd] h-screen '>
     <Navbar/>
+<body class = " bg-purple-800 dark:bg-[#0F172A] -my-24">
     <div class = "bg-black before:animate-pulse before:bg-gradient-to-b before:from-gray-900 overflow-hidden before:via-[#00FF00] before:to-gray-900 before:absolute ">
         <div id="myDIV " className='bg-purple-800' >
             <div class = "w-[100vw] h-[100vh] px-3 sm:px-5 flex items-center justify-center absolute">
@@ -61,7 +75,7 @@ export const Login = () => {
     </div>
 </body>
     
-// </div>
+ </div>
     
   )
 }

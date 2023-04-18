@@ -1,8 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Navbar } from './Navbar';
+import { GlobalContext } from './context/GlobalState';
 
 export const Friends = () => {
+    const {verifyToken} = useContext(GlobalContext)
     const [friends, setFriends] = useState([])
     const getFriends = async() =>{
         
@@ -26,6 +28,7 @@ export const Friends = () => {
     }
 
     useEffect(()=>{
+        verifyToken("user")
         getFriends()
     },[])
   return (

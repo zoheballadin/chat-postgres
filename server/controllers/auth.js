@@ -25,6 +25,9 @@ router.post("/login", async(req,res)=>{
 
 router.get("/", isAuthenticated, async(req,res)=>{
     try {
+        let user = await User.findOne({where: {id: req.payload.id}});
+        if(!user)
+        return res.status(401).json({error: "User not found"})
         return res.status(200).json(req.payload)
     } catch (error) {
         console.log(error);

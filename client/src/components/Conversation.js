@@ -9,7 +9,7 @@ import { Navbar } from "./Navbar";
 export const Conversation = () => {
   const socket = useRef();
   let { id } = useParams();
-  const { user } = useContext(GlobalContext);
+  const { user, verifyToken } = useContext(GlobalContext);
   const scrollRef = useRef();
 
   const [messages, setMessages] = useState([]);
@@ -137,6 +137,7 @@ export const Conversation = () => {
   };
 
   useEffect(() => {
+    verifyToken("user")
     getMessages();
   }, []);
 

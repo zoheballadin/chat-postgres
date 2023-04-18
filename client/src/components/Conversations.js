@@ -6,9 +6,10 @@ import { ConversationListItem } from './ConversationListItem';
 import { Navbar } from './Navbar';
 
 export const Conversations = () => {
+
     const [conversations, setConversations] = useState([]);
     let navigate = useNavigate()
-    const {user} = useContext(GlobalContext)
+    const {user, verifyToken} = useContext(GlobalContext)
     
     const getConvos = async() =>{
         try {
@@ -27,6 +28,7 @@ export const Conversations = () => {
     }
 
     useEffect(()=>{
+        verifyToken("user")
         getConvos()
     },[])
   return (

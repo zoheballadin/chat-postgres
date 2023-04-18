@@ -8,33 +8,34 @@ import { useContext, useEffect } from "react";
 import { Friends } from "./components/Friends";
 import { Conversation } from "./components/Conversation";
 import { Conversations } from "./components/Conversations";
-import { GlobalContext, GlobalProvider } from "./components/context/GlobalState";
+import {
+  GlobalContext,
+  GlobalProvider,
+} from "./components/context/GlobalState";
 import axios from "axios";
 import { Signout } from "./components/Signout";
 import { About } from "./components/About";
 
 function App() {
-  let {setUser} = useContext(GlobalContext)
-  
-  
-  useEffect(()=>{
-    
-  setUser()
-  },[])
-  return (
-    
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/about" element={<About />} />
+  let { setUser } = useContext(GlobalContext);
 
-        <Route path="/home" element={<Home />} />
+  useEffect(() => {
+    setUser();
+  }, []);
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/about" element={<About />} />
+
+      <Route element={<PrivateRoute />}>
         <Route path="/friends" element={<Friends />} />
         <Route path="/convos" element={<Conversations />} />
         <Route path="/conversation/:id" element={<Conversation />} />
-        <Route path="/signout" element={<Signout/>}/>
-      </Routes>
-    
+        <Route path="/signout" element={<Signout />} />
+      </Route>
+    </Routes>
   );
 }
 
